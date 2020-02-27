@@ -21,7 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 //https://www.youtube.com/watch?v=vEU9SDmIvVY
 //https://www.youtube.com/watch?v=M6AkbBaDGJE
 //https://www.youtube.com/watch?v=LKveAwao9HA
-
+//https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/identity-2x?view=aspnetcore-3.1
 namespace AspNetCore3JWT
 {
     public class Startup
@@ -62,8 +62,8 @@ namespace AspNetCore3JWT
                     ValidateIssuerSigningKey=true,
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    //ValidAudience = "http://dotnetdetail.net",
-                    //ValidIssuer = "http://dotnetdetail.net",
+                    //ValidAudience = "http://abc.net",
+                    //ValidIssuer = "http://abc.net",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("aaaaaaaaaaaaaaaa"))
                 };
             });

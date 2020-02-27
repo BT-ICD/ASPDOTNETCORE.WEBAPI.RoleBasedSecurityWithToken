@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCore3JWT.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCore3JWT.Controllers
 {
-    [Authorize(Roles="User")] //This is working with SecurityTokenDescriptor
-    //[Authorize]
+    [Authorize(Roles = "Admin")] //This is working with SecurityTokenDescriptor
     [Route("api/[controller]")]
     [ApiController]
-    public class SecureController : ControllerBase
+    public class ItemController : ControllerBase
     {
         public IActionResult Get()
         {
-            var res = Product.GetProducts();
-            return Ok(res.ToList());
+            return Ok(new { 
+            success ="Welcome Admin"
+            });
         }
     }
 }
