@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 /// <summary>
 /// Learning Reference - https://blog.pedrofelix.org/2012/11/27/json-web-tokens-and-the-new-jwtsecuritytokenhandler-class/
+/// https://vosseburchttechblog.azurewebsites.net/index.php/2015/09/19/generating-and-consuming-json-web-tokens-with-net/
+/// https://blog.pedrofelix.org/2015/01/18/jwt-and-jose-specifications-approved-for-publication-as-rfcs/
 /// </summary>
 namespace AspNetCore3JWT.Controllers
 {
