@@ -14,6 +14,8 @@ namespace AspNetCore3JWT.Data
             var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             context.Database.EnsureCreated();
+
+            //UserName: "Ali" Password: "Ali@123"
             if (!context.Users.Any())
             {
                 ApplicationUser user = new ApplicationUser()
@@ -24,6 +26,21 @@ namespace AspNetCore3JWT.Data
                 };
                 userManager.CreateAsync(user, "password@Welcome20");
             }
+            //To interact with Role Manager 
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            
+            //To access List of roles
+            //var roles = roleManager.Roles.ToList();
+            //var cnt = roles.Count;
+            //To create role - Still need to identify - how to create instance of ApplicationUserRole and then insert new record
+            //var roleResult= roleManager.CreateAsync(new IdentityRole("Admin"));
+            //var roleResult = roleManager.CreateAsync(new IdentityRole("User"));
+
+            //To add User into a role
+
+            //var userRecord = await userManager.FindByEmailAsync ("BTRIVEDI@GMAIL.COM");
+
+
         }
     }
 }

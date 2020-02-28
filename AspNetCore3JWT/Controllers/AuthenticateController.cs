@@ -39,16 +39,19 @@ namespace AspNetCore3JWT.Controllers
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
             {
 
+                //To get list of roles for current user
+                var userRoles = await userManager.GetRolesAsync(user);
+                var cnt = userRoles.Count;
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("aaaaaaaaaaaaaaaa"));
-
+                var roleName = userRoles[0];
                 var tokenDescriptor = new SecurityTokenDescriptor()
                 {
                     Subject = new ClaimsIdentity(
                         new Claim[]
                         {
                             new Claim(ClaimTypes.Name, user.UserName),
-                            new Claim(ClaimTypes.Role, "Admin")
+                            new Claim(ClaimTypes.Role, roleName)
                             
                         }
                         ),
@@ -65,8 +68,8 @@ namespace AspNetCore3JWT.Controllers
                 {
                     token = tokenString,
                     expiration = token.ValidTo,
-                    roles = "Admin"
-                }); ;
+                    roles = roleName
+                }); 
             }
             return Unauthorized();
         }
