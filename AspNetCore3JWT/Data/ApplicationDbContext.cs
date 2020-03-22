@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using AspNetCore3JWT.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,6 @@ namespace AspNetCore3JWT.Data
         {
             base.OnModelCreating(builder);
         }
+        public DbSet<ServerType> ServerType{ get; set; }
     }
 }
