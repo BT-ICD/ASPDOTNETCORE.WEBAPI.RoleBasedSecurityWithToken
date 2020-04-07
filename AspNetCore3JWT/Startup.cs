@@ -22,10 +22,13 @@ using Microsoft.IdentityModel.Tokens;
 //https://www.youtube.com/watch?v=M6AkbBaDGJE
 //https://www.youtube.com/watch?v=LKveAwao9HA
 //https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/identity-2x?view=aspnetcore-3.1
+//To enable CORS - https://docs.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-3.1
 namespace AspNetCore3JWT
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -46,6 +49,16 @@ namespace AspNetCore3JWT
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            //To enable CORS
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder=>
+                    {
+                        builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+                    });
+            });
 
             services.AddAuthentication(options =>
             {
@@ -86,6 +99,8 @@ namespace AspNetCore3JWT
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            //To enable CORS
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthentication();
 
             app.UseAuthorization();
