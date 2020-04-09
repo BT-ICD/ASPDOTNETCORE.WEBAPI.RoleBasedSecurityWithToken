@@ -107,7 +107,10 @@ namespace AspNetCore3JWT
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                // CORS can also be enabled for all controllers
+                endpoints.MapControllers().RequireCors(MyAllowSpecificOrigins);
+
+                //endpoints.MapControllers();
             });
         }
     }

@@ -36,8 +36,9 @@ namespace AspNetCore3JWT.Controllers
             obj.DeletedDateTime = null;
             obj.IsDeleted = false;
             _context.ServerType.Add(obj);
-            _context.SaveChanges();
-            return Ok("Success");
+            int res =_context.SaveChanges();
+            var objResult = new { result = res };
+            return Ok(objResult);
         }
     }
 }
