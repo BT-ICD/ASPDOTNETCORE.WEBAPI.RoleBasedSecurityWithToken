@@ -21,7 +21,7 @@ namespace AspNetCore3JWT.Controllers
         }
         public IActionResult GetServerTypes()
         {
-            var result = _context.ServerType.ToList();
+            var result = _context.ServerType.Where(c=>c.IsDeleted==false) .ToList();
             return Ok(result);
         }
         [HttpPost]

@@ -19,5 +19,6 @@ namespace AspNetCore3JWT.Data
             base.OnModelCreating(builder);
         }
         public DbSet<ServerType> ServerType{ get; set; }
+        public DbSet<Server> Server { get; set; }
     }
 }
