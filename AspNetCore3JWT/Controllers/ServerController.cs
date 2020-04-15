@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AspNetCore3JWT.Data;
 using AspNetCore3JWT.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace AspNetCore3JWT.Controllers
     /// <summary>
     /// To access server details
     /// </summary>
+    //[EnableCors("_myAllowSpecificOrigins")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ServerController : ControllerBase
@@ -40,7 +42,7 @@ namespace AspNetCore3JWT.Controllers
                          where server.IsDeleted == false
                          select new ServerDTOList
                          {
-                             ServerID = server.ServerId,
+                             ServerId = server.ServerId,
                              ServerName = server.ServerName,
                              ServerTypeId = server.ServerTypeId,
                              ServerTypeName = serverType.Name,

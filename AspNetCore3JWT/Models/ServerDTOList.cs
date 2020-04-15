@@ -7,7 +7,7 @@ namespace AspNetCore3JWT.Models
 {
     public class ServerDTOList
     {
-        public decimal? ServerID { get; set; }
+        public decimal? ServerId { get; set; }
         public string ServerName { get; set; }
         public decimal ServerTypeId { get; set; }
         public string ServerTypeName { get; set; }

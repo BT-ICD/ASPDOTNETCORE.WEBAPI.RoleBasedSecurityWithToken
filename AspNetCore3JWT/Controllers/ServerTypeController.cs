@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AspNetCore3JWT.Data;
 using AspNetCore3JWT.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCore3JWT.Controllers
 {
+    //[EnableCors("_myAllowSpecificOrigins")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ServerTypeController : ControllerBase
@@ -22,6 +24,19 @@ namespace AspNetCore3JWT.Controllers
         public IActionResult GetServerTypes()
         {
             var result = _context.ServerType.Where(c=>c.IsDeleted==false) .ToList();
+            return Ok(result);
+        }
+        /// <summary>
+        /// To return list of values to fill Server Type dropdown (LOV)
+        /// Learn from to return with select method - Referfence URl https://www.learnentityframeworkcore.com/dbset/querying-data
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult GetServerTypeLOV()
+        {
+            var result = _context.ServerType.Where(c => c.IsDeleted == false).Select(s => new ServerTypeDTOLOV {
+                ServerTypeId = s.ServerTypeId,
+                Name = s.Name
+            }).ToList();
             return Ok(result);
         }
         [HttpPost]
