@@ -86,6 +86,7 @@ namespace AspNetCore3JWT.Controllers
                 ServerTypeId = serverDTOAdd.ServerTypeId,
                 InternalIP = serverDTOAdd.InternalIP,
                 ExternalIP = serverDTOAdd.ExternalIP,
+                URLToAccess= serverDTOAdd.URLToAccess,
                 Notes = serverDTOAdd.Notes,
                 CreatedBy = "Admin",
                 CreatedDateTime = DateTime.Now,
