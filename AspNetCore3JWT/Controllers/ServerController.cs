@@ -123,7 +123,7 @@ namespace AspNetCore3JWT.Controllers
         public IActionResult Delete(int id)
         {
             int result = 0;
-            var obj = _context.Server.Where(c => c.ServerId == id).FirstOrDefault();
+            var obj = _context.Server.Where(c => c.ServerId == id && c.IsDeleted==false).FirstOrDefault();
             if(obj == null)
             {
                 return NotFound();

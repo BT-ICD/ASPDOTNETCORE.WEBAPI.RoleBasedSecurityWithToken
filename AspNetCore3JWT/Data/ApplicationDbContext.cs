@@ -20,5 +20,7 @@ namespace AspNetCore3JWT.Data
         }
         public DbSet<ServerType> ServerType{ get; set; }
         public DbSet<Server> Server { get; set; }
+        public DbSet<Project> Project { get; set; }
+
     }
 }
