@@ -21,8 +21,10 @@ namespace AspNetCore3JWT.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var result = _context.Project.Where(c=>c.IsDeleted==false) .ToList();
-            return Ok(result);
+            //Bhavin - Need to correct following code
+            var result = _context.Project.Where(c => c.IsDeleted == false);
+            var list = (from x in result select new ProjectDTOList { ProjectId = x.ProjectId, Name = x.Name, About = x.About, Notes = x.Notes, SourceCodeLocation = x.SourceCodeLocation }).ToList();
+            return Ok(list);
         }
         [HttpGet]
         [Route("{id:int}")]

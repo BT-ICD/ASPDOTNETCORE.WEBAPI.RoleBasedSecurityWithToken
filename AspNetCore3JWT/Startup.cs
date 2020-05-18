@@ -1,4 +1,5 @@
 using System.Text;
+using System.Threading.Tasks;
 using AspNetCore3JWT.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -66,6 +67,7 @@ namespace AspNetCore3JWT
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
+             
             .AddJwtBearer(options =>
             {
                 options.SaveToken = true;
@@ -79,6 +81,16 @@ namespace AspNetCore3JWT
                     //ValidIssuer = "http://abc.net",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("aaaaaaaaaaaaaaaa"))
                 };
+                /*To add JWtBearerEvents - Example following event raised (callback) after token validated
+                References - https://www.jerriepelser.com/blog/aspnetcore-jwt-saving-bearer-token-as-claim/ */
+                /*options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var accessToken = context.SecurityToken;
+                        return Task.CompletedTask;
+                    }
+                };*/
             });
         }
         //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("xecretKeywqejaneHelloWorkdSecre"))
