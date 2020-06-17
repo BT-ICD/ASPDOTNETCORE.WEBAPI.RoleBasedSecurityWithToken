@@ -16,15 +16,17 @@ namespace AspNetCore3JWT.Data
             context.Database.EnsureCreated();
 
             //UserName: "Ali" Password: "Ali@123"
-            if (!context.Users.Any())
+
+            //btrivedi -  password@Welcome20
+          //  if (!context.Users.Any())
             {
                 ApplicationUser user = new ApplicationUser()
                 {
-                    Email = "btrivedi@gmail.com",
+                    Email = "btrivedi1@gmail.com",
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = "btrivedi"
+                    UserName = "bt12"
                 };
-                userManager.CreateAsync(user, "password@Welcome20");
+                    userManager.CreateAsync(user, "password@Welcome20");
             }
             //To interact with Role Manager 
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
