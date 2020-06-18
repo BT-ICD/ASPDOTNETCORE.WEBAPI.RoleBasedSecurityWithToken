@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 /// https://docs.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads?view=aspnetcore-3.1
 /// https://stackoverflow.com/questions/39037049/how-to-upload-a-file-and-json-data-in-postman
 /// https://www.c-sharpcorner.com/article/reading-values-from-appsettings-json-in-asp-net-core/
+/// https://stackoverflow.com/questions/42460198/return-file-in-asp-net-core-web-api
+/// https://www.c-sharpcorner.com/article/upload-download-files-in-asp-net-core-2-0/
+/// Local Deployed URL: http://localhost:7458/API/FileUploadDemo/OnPostUploadFiles
 /// </summary>
 namespace AspNetCore3JWT.Controllers
 {
@@ -43,13 +46,57 @@ namespace AspNetCore3JWT.Controllers
             }
             return Ok(new { result = "sucess", contentSize = size });
         }
+        /// <summary>
+        /// To post multiple files
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> OnPostUploadFiles(List<IFormFile> files)
+        {
+            long size = files.Sum(f => f.Length);
+            foreach (var formfile in files)
+            {
+                if (formfile.Length > 0)
+                {
+                    var documentFolderName = config.GetSection("MyAppSettings").GetSection("UploadDocumentFolder").Value;
+                    var fileName = formfile.FileName;
+                    var filePathDocument = AppContext.BaseDirectory + documentFolderName + "\\" + fileName;
+                    using (var stream = System.IO.File.Create(filePathDocument))
+                    {
+                        await formfile.CopyToAsync(stream);
+                    }
+                }
+            }
+            return Ok(new {count =files.Count, size });
+        }
+        [HttpGet]
+        [Route("{filename}")]
+        public async Task<IActionResult> Download(string filename)
+        {
+            if (filename == null)
+                return NotFound("File does not exist");
+            var documentFolderName = config.GetSection("MyAppSettings").GetSection("UploadDocumentFolder").Value;
+            var path = Path.Combine(Directory.GetCurrentDirectory(), documentFolderName, filename);
+            if(!System.IO.File.Exists(path))
+                return NotFound("File does not exist");
+
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, "application/octet-stream", Path.GetFileName(path));
+        }
         public IActionResult GetHello()
         {
             //To access application folder path
             string baseDirectory = AppContext.BaseDirectory;
+
             var documentFolder = config.GetSection("MyAppSettings").GetSection("UploadDocumentFolder").Value;
             return Ok("Hello World From File");
         }
+        
     }
 
 }
