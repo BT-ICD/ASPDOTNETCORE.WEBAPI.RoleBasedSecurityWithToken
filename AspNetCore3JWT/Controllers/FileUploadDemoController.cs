@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCore3JWT.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 /// <summary>
 /// Reference URL to learn : 
@@ -13,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 /// https://stackoverflow.com/questions/39037049/how-to-upload-a-file-and-json-data-in-postman
 /// https://www.c-sharpcorner.com/article/reading-values-from-appsettings-json-in-asp-net-core/
 /// https://stackoverflow.com/questions/42460198/return-file-in-asp-net-core-web-api
+/// https://codeburst.io/options-pattern-in-net-core-a50285aeb18d
+/// 
 /// https://www.c-sharpcorner.com/article/upload-download-files-in-asp-net-core-2-0/
 /// Local Deployed URL: http://localhost:7458/API/FileUploadDemo/OnPostUploadFiles
 /// </summary>
@@ -23,9 +27,13 @@ namespace AspNetCore3JWT.Controllers
     public class FileUploadDemoController : ControllerBase
     {
         private readonly IConfiguration config;
-        public FileUploadDemoController(IConfiguration config)
+        private readonly MyAppSettingsOptions appsettingoptions;
+        public FileUploadDemoController(IConfiguration config, IOptions<MyAppSettingsOptions> options)
         {
             this.config = config;
+            this.appsettingoptions = options.Value;
+
+
         }
         [HttpPost]
         public async Task<IActionResult> OnPostUpload(IFormFile file)
@@ -95,6 +103,17 @@ namespace AspNetCore3JWT.Controllers
 
             var documentFolder = config.GetSection("MyAppSettings").GetSection("UploadDocumentFolder").Value;
             return Ok("Hello World From File");
+        }
+        /// <summary>
+        /// Method to access App Settings Values using Depedency Injection
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult GetAppSettings()
+        {
+            var isAllwed = appsettingoptions.IsLoggingAllowed;
+            var docPath = appsettingoptions.UploadDocumentFolder;
+            return Ok(appsettingoptions);
         }
         
     }

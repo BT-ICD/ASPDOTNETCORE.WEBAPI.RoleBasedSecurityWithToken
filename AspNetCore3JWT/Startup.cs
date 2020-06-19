@@ -1,6 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using AspNetCore3JWT.Data;
+using AspNetCore3JWT.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,6 +52,10 @@ namespace AspNetCore3JWT
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            //Access appsettings.json parameter using depedeny injection - Options Pattern
+            //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.
+            services.Configure<MyAppSettingsOptions>(Configuration.GetSection(MyAppSettingsOptions.MyAppSettings));
+            
             //To enable CORS
             services.AddCors(options =>
             {
