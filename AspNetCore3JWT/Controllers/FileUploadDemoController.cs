@@ -75,7 +75,7 @@ namespace AspNetCore3JWT.Controllers
                     }
                 }
             }
-            return Ok(new {count =files.Count, size });
+            return Ok(new { count = files.Count, size });
         }
         [HttpGet]
         [Route("{filename}")]
@@ -85,7 +85,7 @@ namespace AspNetCore3JWT.Controllers
                 return NotFound("File does not exist");
             var documentFolderName = config.GetSection("MyAppSettings").GetSection("UploadDocumentFolder").Value;
             var path = Path.Combine(Directory.GetCurrentDirectory(), documentFolderName, filename);
-            if(!System.IO.File.Exists(path))
+            if (!System.IO.File.Exists(path))
                 return NotFound("File does not exist");
 
             var memory = new MemoryStream();
@@ -115,7 +115,49 @@ namespace AspNetCore3JWT.Controllers
             var docPath = appsettingoptions.UploadDocumentFolder;
             return Ok(appsettingoptions);
         }
-        
-    }
+        /// <summary>
+        /// Learning Resources - 
+        /// https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httprequest?view=aspnetcore-3.1
+        /// https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.iformcollection?view=aspnetcore-3.1
+        /// https://stackoverflow.com/questions/51892706/asp-net-core-web-api-file-upload-and-form-data-multiple-parameter-passing-to-m
+        /// Reading Multipart - Form Data - https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/sending-html-form-data-part-2
+        /// </summary>
 
+        //    [HttpPost]
+        //    public async Task<IActionResult> Upload([FromForm] SampleModelWithFile obj)
+        //    {
+
+        //        long size = obj.file.Length;
+        //        var documentFolderName = myAppSettingsOptions.ProjectDocuments;
+        //        var fileName = obj.file.FileName;
+        //        var uploadPathWithFileName = Path.Combine(AppContext.BaseDirectory, documentFolderName, fileName);
+        //        using (var stream = System.IO.File.Create(uploadPathWithFileName))
+        //        {
+        //            await obj.file.CopyToAsync(stream);
+        //        }
+
+
+        //        /* To access details using HttpContext.Request.Form - this does not requir any argument in Upload Method - user can pass any number of field in Formdata
+        //            int projectId1;
+        //            string projectName1;
+        //            var form = HttpContext.Request.Form; 
+        //            var request = HttpContext.Request;
+        //            var files = form.Files;
+        //            foreach (var f in files)
+        //            {
+        //                var filename = f.FileName;
+        //            }
+        //            if (form.ContainsKey("projectId"))
+        //            {
+        //               projectId1= Convert.ToInt32( form["projectId"] );
+        //                projectName1 = form["projectName"];
+        //            } 
+        //        */
+        //        // HttpContext.Request.Body
+        //        return Ok();
+        //    }
+
+        //}
+
+    }
 }

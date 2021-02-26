@@ -1,6 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using AspNetCore3JWT.Data;
+using AspNetCore3JWT.Hubs;
 using AspNetCore3JWT.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -45,6 +46,7 @@ namespace AspNetCore3JWT
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddMvc();
+            
             string cnnString = Configuration.GetConnectionString("DefaultConnection");
             //services.AddDbContext<ApplicationDbContext>(options=> options.UseSqlServer(cnnString));
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(cnnString));
@@ -62,9 +64,13 @@ namespace AspNetCore3JWT
                 options.AddPolicy(MyAllowSpecificOrigins,
                     builder=>
                     {
-                        builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+                        //* not allowed - learned during SignalR implementation 
+                        builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                        //builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
                     });
             });
+            //To add SignalR - This should be added after AddCors 
+            services.AddSignalR();
 
             services.AddAuthentication(options =>
             {
@@ -128,6 +134,8 @@ namespace AspNetCore3JWT
                 endpoints.MapControllers().RequireCors(MyAllowSpecificOrigins);
 
                 endpoints.MapControllers();
+                endpoints.MapHub<MessageHub>("/message");
+
             });
         }
     }
